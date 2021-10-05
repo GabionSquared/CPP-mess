@@ -7,18 +7,8 @@
 #include <thread>
 using namespace std;
 
-class Main {
-
-    int main()
-    {
-        string inp;
-        cout << "Hello World!\n";
-
-        Scroll("Input:");
-        cin >> inp;
-        Scroll(inp);
-    }
-
+class Lib {
+public:
     /// <summary>
     /// For making strings print one character at a time
     /// </summary>
@@ -27,19 +17,47 @@ class Main {
     /// <param name="finishTime">Time after the string is finished in thousands of a second.</param>
     /// <param name="lineBreak">How many times \n is sent AFTER msg</param>
     /// <param name="tabs">How many times \t is sent BEFORE msg</param>
-    void Scroll(string msg, int scrollTime = 30, int finishTime = 1000, int lineBreak = 1, int tabs = 1) {
-        for (int i = 0; i < tabs; i++) {
-            //write tabs
+    void Scroll(string msg, unsigned int scrollTime = 30, unsigned int finishTime = 1000, unsigned int lineBreak = 1, unsigned int tabs = 1) {
+        for (unsigned int  i = 0; i < tabs; i++) {
+            cout << "\t";
         }
 
-        for (int i = 0; i < msg.length(); i++) {
-            this_thread::sleep_for(std::chrono::milliseconds(200));
+        for (unsigned int i = 0; i < msg.length(); i++) {
+            this_thread::sleep_for(std::chrono::milliseconds(scrollTime));
             cout << msg[i];
         }
 
-        for (int i = 0; i < lineBreak; i++) {
-            //write newline
+        for (unsigned int  i = 0; i < lineBreak; i++) {
+            cout << "\n";
         }
         this_thread::sleep_for(std::chrono::milliseconds(finishTime));
     }
+
+    void BasicBox(string msg) {
+        cout << "\t ";
+        for (unsigned int i = 0; i < msg.length() + 1; i++)
+        {
+            Scroll("_", 2, 0, 0, 0);
+        }
+        Scroll("_\n\t| ", 2, 0, 0, 0);
+        Scroll(msg, 5, 10, 0, 0);
+        Scroll(" |\n\t|", 2, 0, 0, 0);
+        for (unsigned int i = 0; i < msg.length() + 2; i++)
+        {
+            Scroll("_", 2, 0, 0, 0);
+        }
+        Scroll("|", 30, 1000, 1, 0);
+    }
+};
+
+void main()
+{
+    cout << "Hello World!\n";
+    Lib _Lib;
+
+    string inp;
+    _Lib.Scroll("Input:");
+    cin >> inp;
+    _Lib.Scroll(inp);
+    _Lib.BasicBox(inp);
 };
