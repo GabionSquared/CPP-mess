@@ -5,6 +5,7 @@
 #include <string>
 #include <chrono>
 #include <thread>
+
 using namespace std;
 
 class Lib {
@@ -50,8 +51,11 @@ public:
     }
 };
 
-void main()
+int main()
 {
+#pragma region main shit that actually works good
+    string name;
+
     cout << "Hello World!\n";
     Lib _Lib;
 
@@ -60,4 +64,47 @@ void main()
     cin >> inp;
     _Lib.Scroll(inp);
     _Lib.BasicBox(inp);
+#pragma endregion
+
+    //---------------
+    tm then{};
+    chrono::system_clock::time_point inpTime;
+    cout << "enter\nyear month day\n";
+    cin >> then.tm_year >> then.tm_mon >> then.tm_mday;
+    
+    //cc now contains the input date as a time_point
+
+    //---------------------------
+
+    auto today = std::chrono::system_clock::now();
+
+    cout << "today: "<< then.tm_year;
+
+    std::chrono::duration<double> elapsed_years = (today - inpTime) / 31536000;
+
+    std::cout <<"\nelapsed time: " << elapsed_years.count() << "s\n";
+
+    //----------------------------
+
+    const auto p1 = std::chrono::system_clock::now();
+    const auto p2 = p1 - std::chrono::hours(24);
+
+    std::time_t today_time = std::chrono::system_clock::to_time_t(p1);
+
+    #pragma warning(disable:4996) //stops the ide complaining about ctime's depreciation
+    std::cout << "today: " << std::ctime(&today_time);
+
+    cout << today_time - then;
+
+    /*
+    typedef std::chrono::high_resolution_clock Time;
+    typedef std::chrono::hours h;
+    typedef std::chrono::duration<float> fsec;
+    auto t0 = Time::now();
+    auto t1 = Time::now();
+    fsec fs = t1 - t0;
+    h d = std::chrono::duration_cast<h>(fs);
+    std::cout << fs.count() << "h\n";
+    std::cout << d.count() << "ms\n";
+    */
 };
