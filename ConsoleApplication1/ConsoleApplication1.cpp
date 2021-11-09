@@ -1,4 +1,4 @@
-// ConsoleApplication1.cpp : This file contains the 'main' function. Program execution begins and ends there.
+﻿// ConsoleApplication1.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include <iostream>
@@ -51,60 +51,229 @@ public:
     }
 };
 
-int main()
-{
+class DickingAbout {
+Lib _Lib;
+public:
+    int AwfulTimeCalculator() {
 #pragma region main shit that actually works good
-    string name;
-
-    cout << "Hello World!\n";
-    Lib _Lib;
-
-    string inp;
-    _Lib.Scroll("Input:");
-    cin >> inp;
-    _Lib.Scroll(inp);
-    _Lib.BasicBox(inp);
+        string name;
 #pragma endregion
 
-    //---------------
-    tm then{};
-    chrono::system_clock::time_point inpTime;
-    cout << "enter\nyear month day\n";
-    cin >> then.tm_year >> then.tm_mon >> then.tm_mday;
+        //---------------
+        tm then{};
+        chrono::system_clock::time_point inpTime;
+        cout << "enter\nyear month day\n";
+        cin >> then.tm_year >> then.tm_mon >> then.tm_mday;
+
+        //cc now contains the input date as a time_point
+
+        //---------------------------
+
+        auto today = std::chrono::system_clock::now();
+
+        cout << "today: " << then.tm_year;
+
+        std::chrono::duration<double> elapsed_years = (today - inpTime) / 31536000;
+
+        std::cout << "\nelapsed time: " << elapsed_years.count() << "s\n";
+
+        //----------------------------
+
+        const auto p1 = std::chrono::system_clock::now();
+        const auto p2 = p1 - std::chrono::hours(24);
+
+        std::time_t today_time = std::chrono::system_clock::to_time_t(p1);
+
+#pragma warning(disable:4996) //stops the ide complaining about ctime's depreciation
+        std::cout << "today: " << std::ctime(&today_time);
+
+        //cout << today_time - then;
+
+        /*
+        typedef std::chrono::high_resolution_clock Time;
+        typedef std::chrono::hours h;
+        typedef std::chrono::duration<float> fsec;
+        auto t0 = Time::now();
+        auto t1 = Time::now();
+        fsec fs = t1 - t0;
+        h d = std::chrono::duration_cast<h>(fs);
+        std::cout << fs.count() << "h\n";
+        std::cout << d.count() << "ms\n";
+        */
+    }
+
+    int Pointers() {
+        int foo = 2;            //make foo int
+        int* bar = &foo;        //bar point to foo
+        int** roe = &bar;       //roe points to bar which points to foo
+        //you can stack infinitely
+        //pointers only work on the same data type
+
+        cout << foo << "\t" << *bar << "\t" << **roe << endl;
+        //can all be used to reference what they point at
+        cout << foo << "\t" << bar << "\t" << roe << endl;
+        //this prints foo value, then foo's memory location, the bar's memory location
+
+        //initialiser variables go in a stack (stack memory)
+        //runtime variables are yeeted into random places (heap memory)
+        //The 'new' keyword reserves some ram space, but doesn't name it, so we need pointers to reference it
+
+        int* a = new int;   //reserves a location
+        delete a;           //unreserves it again
+        int* b = NULL;      //without assignment, pointers actually point at shit. set to null to be safe.
+
+
+        /*
+        char* myIntPointer; //create a pointer to an integer
+        char myInt = 'a'; //create an integer variable​
+        myIntPointer = &myInt; //direct pointer at integer​
+        cout << "The value of myInt is : " << *myIntPointer; //print value through pointer
+        */
+
+        return 0;
+    }
+};
+
+class DebugExcersises {
+ Lib _Lib;
+public:
+    void DB8() {
+
+        int secretNumber = rand() % 10; //random number from 1 to 9
+        int guess = 0;
+        int counter = 5;
+
+        while (counter > 0) {
+
+            cout << "\nEnter a guess (1-10) you have " << counter << " tries: ";
+            cin >> guess;
+
+            if (guess == secretNumber) {
+                cout << "\nYOU WIN!";
+                counter = 0;
+            }
+            else {
+                cout << "\nWrong, try again...";
+            }
+            counter--;
+        }
+
+        if (guess != secretNumber) {
+            cout << "\nYOU LOSE!";
+        }
+    }
+
+    /// <summary>
+    /// Dynamically adds contacts using pointers and structs
+    /// </summary>
+    void MemoryManagement23() {
+        struct contact {
+            int age;
+            string name;
+        };
+
+        contact* a = NULL;
+        char ans;
+
+        _Lib.BasicBox("Create new contact? (y/n)");
+        cin >> ans;
+
+        if (ans == 'y') {
+            a = new contact;
+            _Lib.BasicBox("Name:");
+            string name;
+            cin >> name;
+            a->name = name;
+
+            _Lib.BasicBox("Age:");
+            int age;
+            cin >> age;
+            a->age = age;
+        }
+
+    }
+
+    /// <summary>
+    /// A linked list
+    /// </summary>
+    void MemoryManagement26() {
     
-    //cc now contains the input date as a time_point
+        struct DataElement {
+            DataElement* next;
+            int value;
+            DataElement* previous;
+        };
 
-    //---------------------------
 
-    auto today = std::chrono::system_clock::now();
+        /*
+        char ans;
+        DataElement* head = NULL;
 
-    cout << "today: "<< then.tm_year;
+        do {
 
-    std::chrono::duration<double> elapsed_years = (today - inpTime) / 31536000;
+            DataElement* _new = NULL;
 
-    std::cout <<"\nelapsed time: " << elapsed_years.count() << "s\n";
+            _Lib.BasicBox("Create new Entry? (y/n)");
+            cin >> ans;
 
-    //----------------------------
+            if (ans == 'y') {
+                _new = new DataElement;
 
-    const auto p1 = std::chrono::system_clock::now();
-    const auto p2 = p1 - std::chrono::hours(24);
+                if (head == NULL) {
+                    head = _new;
+                }
 
-    std::time_t today_time = std::chrono::system_clock::to_time_t(p1);
+                _Lib.BasicBox("Value:");
+                int value;
+                cin >> value;
+                _new->value = value;
+            }
 
-    #pragma warning(disable:4996) //stops the ide complaining about ctime's depreciation
-    std::cout << "today: " << std::ctime(&today_time);
+        } while (ans == 'y');
+        //print the list
+        */
 
-    cout << today_time - then;
+        char ans;
+        DataElement* head = NULL;
+        DataElement* _new = new DataElement;
+        DataElement* last = NULL;
 
-    /*
-    typedef std::chrono::high_resolution_clock Time;
-    typedef std::chrono::hours h;
-    typedef std::chrono::duration<float> fsec;
-    auto t0 = Time::now();
-    auto t1 = Time::now();
-    fsec fs = t1 - t0;
-    h d = std::chrono::duration_cast<h>(fs);
-    std::cout << fs.count() << "h\n";
-    std::cout << d.count() << "ms\n";
-    */
+        head = _new;
+        last = _new;
+        
+        cout << "input header value";
+        cin >> _new->value;
+        _new->previous = NULL;
+
+        while (true) {
+            DataElement* _new = new DataElement;
+            _new->previous = last;
+            last->next = _new;
+            cout << "input new value";
+            cin >> _new->value;
+        }
+
+
+        //print the list
+    }
+};
+
+int main()
+{
+    cout << "Hello World!\n";
+    Lib _Lib;
+    DickingAbout _DAB;
+    DebugExcersises _Exer;
+
+    //_DBE.DB8();
+    //_DAB.Pointers();
+    _Exer.MemoryManagement23();
+
+        /*
+        string inp;
+        _Lib.Scroll("Input:");
+        cin >> inp;
+        _Lib.Scroll(inp);
+        _Lib.BasicBox(inp);
+        */
 };
