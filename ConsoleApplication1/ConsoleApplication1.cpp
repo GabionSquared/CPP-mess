@@ -204,58 +204,60 @@ public:
             DataElement* previous;
         };
 
-
-        /*
         char ans;
-        DataElement* head = NULL;
-
-        do {
-
-            DataElement* _new = NULL;
-
-            _Lib.BasicBox("Create new Entry? (y/n)");
-            cin >> ans;
-
-            if (ans == 'y') {
-                _new = new DataElement;
-
-                if (head == NULL) {
-                    head = _new;
-                }
-
-                _Lib.BasicBox("Value:");
-                int value;
-                cin >> value;
-                _new->value = value;
-            }
-
-        } while (ans == 'y');
-        //print the list
-        */
-
-        char ans;
-        DataElement* head = NULL;
         DataElement* _new = new DataElement;
-        DataElement* last = NULL;
-
-        head = _new;
-        last = _new;
+        DataElement* head = _new;
+        DataElement* last = _new;
         
-        cout << "input header value";
+        _Lib.BasicBox("input header value");
+        cout << "> ";
+
         cin >> _new->value;
         _new->previous = NULL;
 
-        while (true) {
-            DataElement* _new = new DataElement;
-            _new->previous = last;
+        _Lib.BasicBox("Create new Entry? (y/n)");
+        cout << "> ";
+
+        cin >> ans;
+
+        bool firstflag = true;
+        
+        while (ans == 'y') {
+
+            _new = new DataElement;
+
+            if (firstflag) {
+
+                head->next = _new;
+                firstflag = false;
+            }
+
             last->next = _new;
-            cout << "input new value";
+            _new->previous = last;
+
+            _Lib.BasicBox("input new value");
+            cout << "> ";
+
             cin >> _new->value;
+
+            _Lib.BasicBox("Create new Entry? (y/n)");
+            cout << "> ";
+
+            cin >> ans;
+
+            last = _new;
         }
 
+        DataElement* output = head;
+        cout << endl << output->value << endl;
 
-        //print the list
+        do {
+            output = output->next;
+            cout << output->value << endl;
+        } while (output != last);
+
     }
+
 };
 
 int main()
@@ -267,7 +269,7 @@ int main()
 
     //_DBE.DB8();
     //_DAB.Pointers();
-    _Exer.MemoryManagement23();
+    _Exer.MemoryManagement26();
 
         /*
         string inp;
