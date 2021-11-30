@@ -49,6 +49,14 @@ public:
         }
         Scroll("|", 30, 1000, 1, 0);
     }
+
+    void ReadFile() {
+        //There would be a function here, but I've written it twice and it seems to have failed to push both times.
+        //I'm not doing it again.
+    }
+
+    ~Lib() {
+    }
 };
 
 class DickingAbout {
@@ -130,8 +138,22 @@ public:
         cout << "The value of myInt is : " << *myIntPointer; //print value through pointer
         */
 
+        //classes functions can be accessed through pointers, as can children of that class
+        //you can't access the unique functions of a child from the parent class
         return 0;
     }
+
+    //for some reason you're allowed to just decide what the type will be later
+    //why is this a thing.
+    template <typename placeHolder>
+    placeHolder add(placeHolder a, placeHolder b) {
+        return a + b;
+    }
+    
+    //This is a destructor function. Calling it thanos snaps this class
+    ~DickingAbout(){
+    }
+
 };
 
 class DebugExcersises {
@@ -258,7 +280,73 @@ public:
 
     }
 
+    ~DebugExcersises() {
+    }
 };
+
+#pragma region class constructor overloading
+//a main use of this is having values be easily defaulted
+//as well as overloading constructors, you can overload operators
+
+class Data {
+public:
+    int integer1;
+    int integer2;
+
+    //default constructor
+    Data() {
+        integer1 = 1;
+        integer2 = 2;
+    }
+
+    //modified constructor
+    Data(int overload1, int overload2) {
+        integer1 = overload1;
+        integer2 = overload2;
+    };
+
+    //now when you do (data == data), it only checks integer1
+    bool operator==(Data param1){
+        return integer1 == param1.integer1;
+    };
+
+    //now when you do (data += data), it subtracts
+    void operator+=(Data param1){
+        integer1 -= param1.integer1;
+        integer2 -= param1.integer2;
+    };
+
+    ~Data(){
+    }
+};
+
+void ConstructorOverloading() {
+
+    Data dat;
+    //because it doesn't specify, it uses the unnamed one
+    cout << dat.integer1 << endl; //outputs 1
+    cout << dat.integer2 << endl; //outputs 2
+
+    Data dat1(10, 20);
+    //uses the construct overload for 2 ints
+    cout << dat1.integer1 << endl; //outputs 10
+    cout << dat1.integer2 << endl; //outputs 20
+
+    dat1.integer1 = 1;
+    if (dat == dat1) {
+        cout << "Equal" << endl;
+        //this runs because we modified it to ignore integer2
+    }
+
+    dat += dat1;
+    cout << dat.integer1 << endl; //outputs 0
+    cout << dat.integer2 << endl; //outputs -18
+    //we modified += to subtract instead
+
+    dat.~Data();
+    dat1.~Data();
+}
+#pragma endregion
 
 int main()
 {
@@ -269,7 +357,14 @@ int main()
 
     //_DBE.DB8();
     //_DAB.Pointers();
-    _Exer.MemoryManagement26();
+    //_Exer.MemoryManagement26();
+    //ConstructorOverloading();
+
+    cout << _DAB.add<int>(1, 2) << endl;       //outputs 3
+    cout << _DAB.add<float>(1.5, 2.1) << endl; //outputs 3.6
+    cout << _DAB.add<char>('a', 'b') << endl;  //outputs ├ (why?)
+
+
 
         /*
         string inp;
@@ -278,4 +373,8 @@ int main()
         _Lib.Scroll(inp);
         _Lib.BasicBox(inp);
         */
+
+    _Lib.~Lib();
+    _DAB.~DickingAbout();
+    _Exer.~DebugExcersises();
 };
