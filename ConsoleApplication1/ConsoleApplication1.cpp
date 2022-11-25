@@ -249,26 +249,24 @@ public:
         
         while (ans == 'y') {
 
-            /*
-            
-                - generate new data struct
 
-            
-            */
-
+             // generate new data struct
             _NewDataElement = new DataElement;
 
 
-            //if it's the first addition (so technically the second), "previous" points at the header
+            //if it's the first addition (so technically the second), head's "next" points at this
             if (firstflag) {
 
                 head->next = _NewDataElement;
                 firstflag = false;
             }
 
+            //lasts "next" points at this
             last->next = _NewDataElement;
+            //this' "previous" points at last
             _NewDataElement->previous = last;
 
+            //actually take the value
             _Lib.BasicBox("input new value");
             cout << "> ";
 
@@ -282,6 +280,10 @@ public:
             last = _NewDataElement;
         }
 
+        // ---- iterative thing for printing the contents ----
+
+        // this breaks if the list is only a head. Don't do that.
+        
         DataElement* output = head;
         cout << endl << output->value << endl;
 
@@ -289,6 +291,64 @@ public:
             output = output->next;
             cout << output->value << endl;
         } while (output != last);
+
+        cout << endl;
+
+        // ---- print specific number -----
+
+        _Lib.BasicBox("Enter number to find the index of: ");
+        cout << "> ";
+
+        int query;
+        int index = 0;
+        bool found = false;
+
+        cin >> query;
+
+        DataElement* observed = head;
+
+
+
+
+        //(iteration to find the thing)
+        do {
+
+            if (observed->value == query) {
+                found = true;
+            }
+
+            index++;
+            observed = observed->next;
+
+        } while (observed != last && found == false);
+
+        if (found == true) {
+            _Lib.BasicBox("index: " + to_string(index));
+        }
+        else {
+            _Lib.BasicBox("value was not found in the list");
+        }
+
+
+        // ---- Highest and lowest, shows address and value ----
+
+        /*
+        int highest = head->value;
+        int lowest = head->value;
+
+        DataElement* observed = head;
+
+        do {
+
+            if (observed->value == query) {
+                found = true;
+            }
+
+            index++;
+            observed = observed->next;
+
+        } while (observed != last);
+        */
 
     }
 
@@ -369,12 +429,12 @@ int main()
 
     //_DBE.DB8();
     //_DAB.Pointers();
-    //_Exer.MemoryManagement26();
+    _Exer.MemoryManagement26();
     //ConstructorOverloading();
 
-    cout << _DAB.add<int>(1, 2) << endl;       //outputs 3
-    cout << _DAB.add<float>(1.5, 2.1) << endl; //outputs 3.6
-    cout << _DAB.add<char>('a', 'b') << endl;  //outputs ├ (why?)
+    //cout << _DAB.add<int>(1, 2) << endl;       //outputs 3
+    //cout << _DAB.add<float>(1.5, 2.1) << endl; //outputs 3.6
+    //cout << _DAB.add<char>('a', 'b') << endl;  //outputs ├ (why?) (it's probably something to do with adding ascii values)
 
 
 
