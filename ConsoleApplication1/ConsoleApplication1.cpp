@@ -227,15 +227,18 @@ public:
         };
 
         char ans;
-        DataElement* _new = new DataElement;
-        DataElement* head = _new;
-        DataElement* last = _new;
+        DataElement* _NewDataElement = new DataElement;
+        DataElement* head = _NewDataElement;
+        DataElement* last = _NewDataElement;
         
+        //gets vaule for the header. Needs to be seperate for the null previous header.
+        //no this doesn't support circular lists.
         _Lib.BasicBox("input header value");
         cout << "> ";
 
-        cin >> _new->value;
-        _new->previous = NULL;
+        cin >> _NewDataElement->value;
+        _NewDataElement->previous = NULL;
+
 
         _Lib.BasicBox("Create new Entry? (y/n)");
         cout << "> ";
@@ -246,28 +249,37 @@ public:
         
         while (ans == 'y') {
 
-            _new = new DataElement;
+            /*
+            
+                - generate new data struct
 
+            
+            */
+
+            _NewDataElement = new DataElement;
+
+
+            //if it's the first addition (so technically the second), "previous" points at the header
             if (firstflag) {
 
-                head->next = _new;
+                head->next = _NewDataElement;
                 firstflag = false;
             }
 
-            last->next = _new;
-            _new->previous = last;
+            last->next = _NewDataElement;
+            _NewDataElement->previous = last;
 
             _Lib.BasicBox("input new value");
             cout << "> ";
 
-            cin >> _new->value;
+            cin >> _NewDataElement->value;
 
             _Lib.BasicBox("Create new Entry? (y/n)");
             cout << "> ";
 
             cin >> ans;
 
-            last = _new;
+            last = _NewDataElement;
         }
 
         DataElement* output = head;
