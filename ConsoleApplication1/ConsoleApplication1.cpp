@@ -352,6 +352,76 @@ public:
 
     }
 
+    void NabilPointers() {
+
+        struct Time {
+            int hours;
+            int minutes;
+            int seconds;
+        };
+
+        Time* _time = new Time;
+
+        _Lib.BasicBox("Hours: ");
+        cout << "> ";
+        cin >> _time->hours;
+
+        _Lib.BasicBox("Minutes: ");
+        cout << "> ";
+        cin >> _time->minutes;
+
+        _Lib.BasicBox("Seconds: ");
+        cout << "> ";
+        cin >> _time->seconds;
+
+
+        cout << endl << "seconds: " << ((_time->hours*60) + _time->minutes)*60 + _time->seconds << endl;
+
+    }
+
+    void NabilFractions() {
+        struct Fraction {
+            int num;
+            int denum;
+        };
+        Fraction* _frac = new Fraction;
+
+        _Lib.BasicBox("Num: ");
+        cout << "> ";
+        cin >> _frac->num;
+
+        _Lib.BasicBox("Denum: ");
+        cout << "> ";
+        cin >> _frac->denum;
+
+        Fraction* _frac2 = new Fraction;
+
+        _Lib.BasicBox("Num 2: ");
+        cout << "> ";
+        cin >> _frac2->num;
+
+        _Lib.BasicBox("Denum 2: ");
+        cout << "> ";
+        cin >> _frac2->denum;
+
+        cout << endl << "(" << _frac->num << "/" << _frac->denum << ") + (" << _frac2->num << "/" << _frac2->denum << ")" << endl;
+
+
+
+        _frac->num = _frac->num * _frac2->denum;
+        _frac2->num = _frac2->num * _frac->denum;
+
+        cout << endl << "(" << _frac->num << "/" << _frac->denum << ") + (" << _frac2->num << "/" << _frac2->denum << ")" << endl;
+
+        Fraction* _result = new Fraction;
+
+        _result->num = _frac->num + _frac2->num;
+        _result->denum = _frac->denum * _frac2->denum;
+
+        cout << endl << "(" << _result->num << "/" << _result->denum << ")" << endl;
+
+    }
+
     ~DebugExcersises() {
     }
 };
@@ -429,8 +499,10 @@ int main()
 
     //_DBE.DB8();
     //_DAB.Pointers();
-    _Exer.MemoryManagement26();
+    //_Exer.MemoryManagement26();
     //ConstructorOverloading();
+    _Exer.NabilPointers();
+    _Exer.NabilFractions();
 
     //cout << _DAB.add<int>(1, 2) << endl;       //outputs 3
     //cout << _DAB.add<float>(1.5, 2.1) << endl; //outputs 3.6
